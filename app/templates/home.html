@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Fastapi Example</title>
+
+    <!-- SimpleCSS -->
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- Flickity CSS-->
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <!-- Flickity JS-->
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+
+</head>
+
+<body>
+    <h1>This is a test of a minimal website with fastapi</h1>
+
+    <div class="carousel js-flickity" data-flickity-options='{ "wrapAround": true , "autoPlay":true}'>
+        {% for line in photoList %}
+        <img class="carousel-cell" src="{{ line }}" />
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 30px;">Credits : <a
+            href="https://www.pexels.com/fr-fr/@divinetechygirl/">DivineTechyGirl</a> & <a
+            href="https://www.pexels.com/fr-fr/@thisisengineering/">ThisIsEngineering</a> @ <a
+            href="https://www.pexels.com">Pexels</a> (free image library)
+    </div>
+
+    <footer>
+        A. Gademer (2025)
+    </footer>
+</body>
+
+</html>
