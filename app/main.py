@@ -5,6 +5,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 import os
+from core.database import create_db
+from routers import measurement_router
 
 app = FastAPI(title="Minimal Fastapi Example", docs_url="/docs")
 
@@ -25,6 +27,9 @@ async def root(request: Request):
         else:
             continue
     return templates.TemplateResponse(request, "home.html", context={"photoList":photoList})
+
+create_db()
+app.include_router(measurement_router.router)
 
 # Running the actual app
 if __name__ == "__main__":
