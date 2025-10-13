@@ -4,6 +4,6 @@ jupyter labextension install jupyterlab_iframe@^0.5
 jupyter labextension enable jupyterlab_iframe
 
 
-echo "c.JupyterLabIFrame.iframes = ['www.google.fr']"  > ~/.jupyter/jupyter_notebook_config.py
-echo "c.JupyterLabIFrame.welcome = 'local://landing.html'"  > ~/.jupyter/jupyter_notebook_config.py
 mkdir -p ~/.jupyter
+echo "c.JupyterLabIFrame.iframes = ['www.google.fr']"  > ~/.jupyter/jupyter_notebook_config.py
+echo "c.JupyterLabIFrame.welcome = 'local://landing.html'"  >> ~/.jupyter/jupyter_notebook_config.py
