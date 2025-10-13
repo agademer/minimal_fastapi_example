@@ -1,0 +1,8 @@
+#from https://github.com/timkpaine/jupyterlab_iframe/
+
+jupyter labextension install jupyterlab_iframe@^0.2
+jupyter serverextension enable --py jupyterlab_iframe
+
+config="c.JupyterLabIFrame.welcome = 'local://binder/landing.html'"
+mkdir -p ~/.jupyter
+echo -e $config > ~/.jupyter/jupyter_notebook_config.py
