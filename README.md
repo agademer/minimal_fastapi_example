@@ -1,20 +1,19 @@
 # Minimal Fastapi website
 
+## Remarks
+If you are on your own computer, create a python virtual environment for this project and activate it. 
+
+More info: [Creating virtual environments](https://docs.python.org/3/library/venv.html#creating-virtual-environments)
+
+**If you are on binder, go directly to installation steps.**
+
 ## Installation
 
-1. Creating a python virtual environment
+1. Installing requirements
 ```
-python -m venv .venv
+pip install -r requirements.txt
 ```
-2. Activating the virtual environment (ex given on Windows)
-```
-.venv\Script\Activate.ps1
-```
-3. Installing requirements
-```
-pip install -r requirements
-```
-4. Runing the app
+2. Runing the app
 ```
 python app/main.py
 ```
