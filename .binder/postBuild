@@ -1,1 +1,10 @@
+#!/usr/bin/env bash
+set -eux
+
+# Apply overrides.json
+mkdir -p ${NB_PYTHON_PREFIX}/share/jupyter/lab/settings
+cp overrides.json ${NB_PYTHON_PREFIX}/share/jupyter/lab/settings
+
+# Install project requirements
 pip install -r ~/requirements.txt
+
