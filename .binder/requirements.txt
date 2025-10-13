@@ -1,0 +1,2 @@
+jupyter-server-proxy # HTML PORT FORWARDING
+jupyterlab_iframe>=0.2 # Local iframe
