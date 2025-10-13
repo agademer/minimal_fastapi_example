@@ -1,4 +1,5 @@
 fastapi
 jinja2
 uvicorn
-jupyter-server-proxy
+jupyter-server-proxy # HTML PORT FORWARDING
+jupyterlab_iframe # Local iframe
