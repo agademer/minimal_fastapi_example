@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from models.measurement import Measurement
 from schemas.measurement_schema import MeasurementCreate
-from datetime import datetime
+from datetime import datetime, timedelta
+import math
 
 # Comments in this file were generated with Gemma3:27b (local server) then reviewed by the developer.
 
@@ -88,3 +89,9 @@ def delete_measurement(db: Session, db_measurement: Measurement) -> Measurement:
     db.delete(db_measurement) # Delete the measurement record from the database.
     db.commit() # Commit the changes to the database.
     return db_measurement
+
+def seed_measurements(db: Session):
+    if get_all_measurement(db) == []: # DB empty
+        for i in range(20):
+            create_measurement(db,MeasurementCreate(sensor_id="sensor0",value=(math.sin(i/7)),timestamp=datetime.now()+timedelta(seconds=i)))
+    db.commit()
