@@ -14,17 +14,16 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # The template dir is for frontend file that can have parameters
 templates = Jinja2Templates(directory="app/templates")
 
-# Listing the images in the static/photos directory to give as parameter to the template
-photoList = []
-for filename in os.listdir('static/photos'):
-    if filename.endswith(".jpg"):
-        photoList.append(os.path.join('static','photos', filename))
-    else:
-        continue
-
 # Definition of the starting page (through templating)
-@app.get("/", include_in_schema=True)
+@app.get("/")
 async def root(request: Request):
+    # Listing the images in the static/photos directory to give as parameter to the template
+    photoList = []
+    for filename in os.listdir('static/photos'):
+        if filename.endswith(".jpg"):
+            photoList.append(os.path.join('static','photos', filename))
+        else:
+            continue
     return templates.TemplateResponse(request, "home.html", context={"photoList":photoList})
 
 # Running the actual app
