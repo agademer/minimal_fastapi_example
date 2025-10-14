@@ -47,6 +47,7 @@ async def get_measurements(db: Session = Depends(get_db)):
     Returns:
         A list of MeasurementResponse objects.
     """
+    crud.seed_measurements(db)
     return crud.get_all_measurement(db)  # Call the CRUD function to get all measurements.
 
 # API endpoint to get the measurements by sensor_id
