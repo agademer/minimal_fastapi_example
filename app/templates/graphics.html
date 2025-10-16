@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphics with Highcharts</title>
+    <!-- SimpleCSS -->
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- HighChart -->
+    <!-- ** Core library -->
+    <script src="https://code.highcharts.com/highcharts.js"></script> 
+    <!-- ** Add label on the curve for better lisibility -->
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <!-- ** Add the possibility to export as image -->
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <!-- ** Add the possibility to export the data itself in the export menu-->
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <!-- ** Add better compatibility with assistive technologies -->
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <!-- ** Automatic Light / Dark mode -->
+    <script src="https://code.highcharts.com/themes/adaptive.js"></script> 
+    
+    <script>
+        window.onload = async function () {
+            // This function will be executed when the page has fully loaded.
+            
+            const data = await fetch('measurements'    // Fetch data from the 'measurements' endpoint.  Assumes a FastAPI endpoint returns JSON data.
+            ).then(response => response.json()); // Parse the response body as JSON.
+
+            var series = {}; // Initialize an empty object to store data series.  We'll use sensor_id as keys.
+            data.forEach(function (item, index) {
+                // Iterate through each item in the fetched data.
+                // First occurence of the sensor_id : we create a new series for it
+                if (!(item.sensor_id in series)) {
+                    // Check if a series already exists for the current sensor_id.
+                    series[item.sensor_id] = { "name": item.sensor_id, "data": [] }; // If not, create a new series object with a name and an empty data array.
+                }
+                // On met (push) dans le tableau des paires (temps, valeur) qui est le format attendu par Highchart
+                series[item.sensor_id]["data"].push(
+                    [
+                        //Remarque : en JS item.created_at <=> item["created_at"]
+                        Date.parse(item.timestamp), // Convert the timestamp string to a numerical date representation (milliseconds since epoch).
+                        parseFloat(item.value) // Convert the value string to a floating-point number.
+                    ]);
+            });
+            // We used a dict by convenience but Highchart expect a List
+            series = Object.values(series) // Convert the series object into an array of series. This is because Highcharts expects an array of series objects.
+            // We sort the data. Highchart expected a sorted data series
+            series.forEach(function (item, index) {
+                item["data"].sort(); // Sort the data points within each series by timestamp (ascending order).  Highcharts requires sorted data for proper rendering.
+            });
+            console.log(series); // For debugging: Log the final series data to the console.
+            Highcharts.chart('container', { // Create a Highcharts chart in a div (see HTML part) identified by the ID 'container'.
+                title: {
+                    text: 'Mes données', // Chart title.
+                    align: 'left' // Title alignment.
+                },
+                yAxis: {
+                    title: {
+                        text: 'Valeur mesurée' // Y-axis title.
+                    }
+                },
+                xAxis: {
+                    type: 'datetime', // Set the x-axis type to 'datetime' to handle time-based data.
+                    title: {
+                        text: 'Heure d\'acquisition' // X-axis title.
+                    }
+                },
+                time: {
+                    useUTC: false // Use local time instead of UTC.
+                },
+                chart: {
+                    zooming: { // Add the capacity to zoom in/out based on the x-axis (timeline)
+                        type: 'x'
+                    }
+                },
+                legend: {
+                    layout: 'vertical', // Legend layout.
+                    align: 'right', // Legend alignment.
+                    verticalAlign: 'middle' // Vertical alignment of the legend.
+                },
+                series: series, // Passing the list of serie to Highcharts
+                responsive: { // Responsiveness is the capacity to change to the size of the windows (Full-screen / Half-screen, PC vs tablet vs phone, etc.)
+                    rules: [{
+                        condition: {
+                            maxWidth: 500 // Apply the following chart options when the screen width is 500 pixels or less.
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal', // Change the legend layout to horizontal.
+                                align: 'center', // Center the legend.
+                                verticalAlign: 'bottom' // Align the legend to the bottom.
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Demo with HighCharts and FastAPI</h1>
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+            Showing the sensors data with the <a href="https://www.highcharts.com/">HighCharts</a> library.
+        </p>
+    </figure>
+
+    <footer>
+        A. Gademer (2025)
+    </footer>
+</body>
+
+</html>

@@ -28,6 +28,10 @@ async def root(request: Request):
             continue
     return templates.TemplateResponse(request, "home.html", context={"photoList":photoList})
 
+@app.get("/graphics")
+async def graphics(request: Request):
+    return templates.TemplateResponse(request, "graphics.html")
+
 create_db()
 app.include_router(measurement_router.router)
 

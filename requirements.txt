@@ -1,4 +1,6 @@
-fastapi
-jinja2
-uvicorn
-SQLAlchemy
+fastapi     # Core library
+jinja2      # Templating language
+uvicorn     # Light web server
+SQLAlchemy  # To manage databases
+psutil      # To read computer info
+requests    # To make HTTP requests
